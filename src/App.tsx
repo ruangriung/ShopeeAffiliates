@@ -3,13 +3,13 @@ import { products as initialProducts, categories, generateProducts } from './dat
 import { CategoryFilter } from './components/CategoryFilter';
 import { ProductGrid } from './components/ProductGrid';
 import { Search, Heart, ArrowUp, CheckCircle, Info } from 'lucide-react';
-import { Product } from './types';
-import { GeminiTipsPage } from './components/GeminiTipsPage';
-import { BlogPage } from './components/BlogPage';
-import { VideoAIPage } from './components/VideoAIPage';
-import { customProductsMarkdown, parseCustomProducts } from './config';
+import { Product, Article } from './types';
+import { ArticleDetail } from './components/ArticleDetail';
+import { customProductsMarkdown, parseCustomProducts, blogArticles, aiTipsArticles } from './config';
 
 export default function App() {
+  const allArticles = useMemo(() => [...blogArticles, ...aiTipsArticles], []);
+  
   const initializeProducts = useCallback(() => {
     const customProducts = parseCustomProducts(customProductsMarkdown);
     const regularProducts = [...initialProducts];
@@ -44,7 +44,19 @@ export default function App() {
   const [allProducts, setAllProducts] = useState<Product[]>(initializeProducts());
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
-  const [activePage, setActivePage] = useState<'home' | 'gemini' | 'blog' | 'video'>('home');
+  const [activePage, setActivePage] = useState<'home' | 'article'>('home');
+  const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
+
+  const currentArticle = useMemo(() => 
+    allArticles.find(a => a.slug === currentArticleSlug), 
+    [allArticles, currentArticleSlug]
+  );
+
+  const handleNavigateToArticle = (slug: string) => {
+    setCurrentArticleSlug(slug);
+    setActivePage('article');
+    scrollToTop();
+  };
 
   const loadMore = useCallback(() => {
     if (isLoading) return;
@@ -247,7 +259,7 @@ export default function App() {
         className="flex-1 overflow-auto flex flex-col items-center relative scroll-smooth"
       >
         {activePage === 'home' ? (
-          <div className="w-full max-w-[1024px] flex flex-col">
+          <div className="w-full flex flex-col">
             {/* Prompt Section for Social Media Visitors */}
           <div className="flex items-center justify-between px-[12px] pt-[12px] pb-[4px]">
             <span className="text-[12px] text-[#757575]">
@@ -286,9 +298,7 @@ export default function App() {
                 onToggleWishlist={toggleWishlist} 
                 onShare={shareProduct}
                 onCopyPrompt={() => showToast('Prompt berhasil di-copy! Coba gunakan di AI generator favoritmu.', 'success')}
-                onReadGeminiTrick={() => setActivePage('gemini')}
-                onReadBlog={() => setActivePage('blog')}
-                onReadVideoAI={() => setActivePage('video')}
+                onNavigate={handleNavigateToArticle}
               />
               {!showWishlist && (
                 <div 
@@ -326,12 +336,15 @@ export default function App() {
             </div>
           )}
         </div>
-        ) : activePage === 'gemini' ? (
-          <GeminiTipsPage onBack={() => setActivePage('home')} />
-        ) : activePage === 'video' ? (
-          <VideoAIPage onBack={() => setActivePage('home')} />
+        ) : activePage === 'article' && currentArticle ? (
+          <ArticleDetail article={currentArticle} onBack={() => setActivePage('home')} />
         ) : (
-          <BlogPage onBack={() => setActivePage('home')} />
+          <div className="flex items-center justify-center py-20">
+             <div className="text-center">
+                <h2 className="text-xl font-bold mb-4">Halaman Tidak Ditemukan</h2>
+                <button onClick={() => setActivePage('home')} className="text-[#ee4d2d] hover:underline">Kembali ke Beranda</button>
+             </div>
+          </div>
         )}
       </main>
 

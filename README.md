@@ -1,6 +1,6 @@
 # Affiliate Store & Blog Template
 
-Sebuah template website modern berbasis React dan Vite yang dirancang khusus untuk pembuat konten, affiliate marketer, dan kurator produk. Website ini tidak membutuhkan database kompleks; semua konten (produk, artikel blog, dan panduan) dapat dikustomisasi dengan mudah melalui file konfigurasi berbasis Markdown.
+Sebuah template website modern berbasis React dan Vite yang dirancang khusus untuk pembuat konten, affiliate marketer, dan kurator produk. Website ini tidak membutuhkan database kompleks; semua konten (produk, artikel blog, dan panduan) dikelola dengan mudah melalui kumpulan file Markdown yang tertata dalam folder.
 
 ## ✨ Fitur Utama
 
@@ -38,11 +38,28 @@ Sebuah template website modern berbasis React dan Vite yang dirancang khusus unt
 
 ## 📝 Cara Mengubah Konten (Kustomisasi)
 
-Anda tidak butuh database! Buka file `src/config.ts` untuk mengubah isi website Anda:
+Anda tidak butuh database! Konten dikelola melalui file Markdown di folder `src/content/`:
 
-- **`customProductsMarkdown`**: Tambahkan produk unggulan Anda di sini menggunakan format Markdown.
-- **`blogMarkdown`**: Tulis artikel blog Anda di sini.
-- **`geminiTipsMarkdown`** & **`videoAIMarkdown`**: Masukkan panduan/tips and trik Anda.
+### 1. Katalog Produk Kustom
+Buka `src/content/custom-products.md`. Tambahkan produk unggulan Anda menggunakan format Markdown (Judul H2 untuk nama produk). Produk ini akan ditandai dengan ikon mahkota 👑 di beranda.
+
+### 2. Artikel Blog
+Tambahkan file `.md` baru di folder `src/content/blog/`. Setiap file akan otomatis memiliki halaman sendiri berdasarkan nama filenya (slug). Gunakan format **Frontmatter** di bagian atas file:
+```markdown
+---
+title: Judul Artikel Anda
+date: 2024-05-10
+tag: Review
+description: Deskripsi singkat untuk kartu blog
+---
+Konten artikel Anda di sini...
+```
+
+### 3. Tips AI & Video
+Tambahkan file `.md` baru di folder `src/content/ai-tips/`. Sama seperti blog, gunakan Frontmatter untuk judul dan metadata.
+
+## 🛠️ Arsitektur Konten
+Website ini menggunakan `import.meta.glob` untuk membaca file Markdown secara dinamis. Anda cukup menambah atau menghapus file di folder yang sesuai tanpa perlu mengubah kode sumber.
 
 ## ☁️ Cara Deploy ke Cloudflare Pages
 

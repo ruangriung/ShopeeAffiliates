@@ -16,12 +16,10 @@ interface Props {
   onToggleWishlist: (id: string, name?: string) => void;
   onShare: (product: Product) => void;
   onCopyPrompt?: () => void;
-  onReadGeminiTrick?: () => void;
-  onReadBlog?: () => void;
-  onReadVideoAI?: () => void;
+  onNavigate?: (slug: string) => void;
 }
 
-export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishlist, onShare, onCopyPrompt, onReadGeminiTrick, onReadBlog, onReadVideoAI }) => {
+export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishlist, onShare, onCopyPrompt, onNavigate }) => {
   const renderGridItems = () => {
     const items: React.ReactNode[] = [];
     
@@ -37,25 +35,25 @@ export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishl
         />
       );
 
-      // Selipkan kartu Blog dan AI (Bukan lebar penuh, tapi masuk flow grid seperti 1 item produk 1x1 kolum)
+      // Selipkan kartu Blog dan AI
       if (index === 7) {
         items.push(
           <div key={`blog-card-${index}`} className="col-span-1 border-none">
-             <BlogCard onClick={() => onReadBlog && onReadBlog()} />
+             <BlogCard onClick={() => onNavigate && onNavigate('review-gadget')} />
           </div>
         );
       }
       if (index === 15) {
         items.push(
           <div key={`gemini-card-${index}`} className="col-span-1 border-none">
-             <GeminiTipCard onClick={() => onReadGeminiTrick && onReadGeminiTrick()} />
+             <GeminiTipCard onClick={() => onNavigate && onNavigate('trik-rahasia-ai')} />
           </div>
         );
       }
       if (index === 3) {
         items.push(
           <div key={`video-ai-card-${index}`} className="col-span-1 border-none">
-             <VideoAICard onClick={() => onReadVideoAI && onReadVideoAI()} />
+             <VideoAICard onClick={() => onNavigate && onNavigate('video-ai-generator')} />
           </div>
         );
       }

@@ -1,10 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand: #ee4d2d;
+  --color-brand-hover: #d74326;
+}
+
 @layer base {
   html, body {
     margin: 0;
     height: 100%;
     overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
   }
   #root {
     height: 100%;
@@ -21,6 +27,55 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  
+  /* Custom Prose Enhancements */
+  .prose {
+    --tw-prose-body: #444;
+    --tw-prose-headings: #222;
+    --tw-prose-links: #ee4d2d;
+    --tw-prose-bold: #111;
+    --tw-prose-quotes: #666;
+    --tw-prose-quote-borders: #ee4d2d;
+    --tw-prose-captions: #757575;
+    --tw-prose-code: #ee4d2d;
+    --tw-prose-pre-code: #e8e8e8;
+    --tw-prose-pre-bg: #282c34;
+    --tw-prose-th-borders: #e8e8e8;
+    --tw-prose-td-borders: #e8e8e8;
+  }
+
+  .prose p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+  }
+
+  .prose h2, .prose h3 {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    font-weight: 700;
+  }
+  
+  .prose blockquote {
+    font-style: italic;
+    border-left-width: 4px;
+    padding-left: 1.5rem;
+    background: #fff9f8;
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .prose code {
+    background: #fff5f2;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .prose pre {
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
   }
 }
 

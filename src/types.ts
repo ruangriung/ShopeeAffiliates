@@ -6,3 +6,11 @@ export interface Product {
   affiliateLink: string;
   category: string;
 }
+
+export interface Article {
+  slug: string;
+  title: string;
+  content: string;
+  tag?: string;
+  date?: string;
+}
