@@ -198,7 +198,6 @@ export default function App() {
             >
               Shopee Affiliate
             </div>
-            <span className="text-[12px] text-[#757575] hidden sm:block">Dashboard Partner</span>
           </div>
           
           {/* Mobile Heart Icon */}
@@ -242,7 +241,6 @@ export default function App() {
                 </span>
               )}
             </button>
-            <div className="text-[12px] text-[#757575] border-l border-[#ddd] pl-[12px] ml-[4px]">ID: 98234-AFF</div>
           </div>
         </div>
       </header>

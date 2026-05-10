@@ -35,92 +35,96 @@ export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishl
         />
       );
 
-      // Selipkan kartu Blog dan AI
-      if (index === 7) {
-        items.push(
-          <div key={`blog-card-${index}`} className="col-span-1 border-none">
-             <BlogCard onClick={() => onNavigate && onNavigate('review-gadget')} />
-          </div>
-        );
-      }
-      if (index === 15) {
-        items.push(
-          <div key={`gemini-card-${index}`} className="col-span-1 border-none">
-             <GeminiTipCard onClick={() => onNavigate && onNavigate('trik-rahasia-ai')} />
-          </div>
-        );
-      }
-      if (index === 3) {
+      // Selipkan kartu Blog dan AI di posisi strategis
+      // Kita selipkan di tempat yang menarik perhatian
+      if (index === 6) {
         items.push(
           <div key={`video-ai-card-${index}`} className="col-span-1 border-none">
              <VideoAICard onClick={() => onNavigate && onNavigate('video-ai-generator')} />
           </div>
         );
       }
+      if (index === 13) {
+        items.push(
+          <div key={`blog-card-${index}`} className="col-span-1 border-none">
+             <BlogCard onClick={() => onNavigate && onNavigate('review-gadget')} />
+          </div>
+        );
+      }
+      if (index === 20) {
+        items.push(
+          <div key={`gemini-card-${index}`} className="col-span-1 border-none">
+             <GeminiTipCard onClick={() => onNavigate && onNavigate('trik-rahasia-ai')} />
+          </div>
+        );
+      }
 
-      // 2. Iklan & Banner Dinamis Anti-Grid Kosong
-      // Karena mobile punya 3 kolom dan desktop punya 7 kolom, KPK adalah 21.
-      if ((index + 1) % 21 === 0) {
-        // Tentukan variasi banner berdasarkan siklus
+      // 2. Iklan & Banner Dinamis - Muncul setiap 21 produk
+      if ((index + 1) % 21 === 0 && index > 0) {
+        // ANTI-GRID KOSONG: Isi baris desktop (7 kol) agar banner mulai di baris baru
+        const remainderDesktop = items.length % 7;
+        if (remainderDesktop !== 0) {
+          for (let i = 0; i < 7 - remainderDesktop; i++) {
+            items.push(<div key={`spacer-md-${index}-${i}`} className="hidden md:block" />);
+          }
+        }
+        
+        // Anti-grid kosong mobile (3 kol)
+        const remainderMobile = items.length % 3;
+        if (remainderMobile !== 0) {
+          for (let i = 0; i < 3 - remainderMobile; i++) {
+            items.push(<div key={`spacer-sm-${index}-${i}`} className="md:hidden" />);
+          }
+        }
+
         const cycle = ((index + 1) / 21);
-
+        
+        // Banner (selalu col-span-full)
         if (cycle === 1) {
-          // Banner Prompt Ekstra setelah 21 item (baris baru pas untuk semua device)
-          items.push(
-            <PromptGridItem 
-              key={`prompt-slot-${index}`}
-              onCopy={onCopyPrompt || (() => {})}
-            />
-          );
+          items.push(<PromptGridItem key={`ps-${index}`} onCopy={onCopyPrompt || (() => {})} />);
         } else if (cycle === 2) {
-          // Banner folder Google Drive setelah 42 item
-          items.push(
-            <DriveGridItem
-              key={`drive-slot-${index}`}
-              driveLink="https://drive.google.com/drive"
-            />
-          );
+          items.push(<DriveGridItem key={`ds-${index}`} driveLink="https://drive.google.com/drive" />);
         } else if (cycle === 3) {
-          // Banner Komunitas Telegram setelah 63 item
-          items.push(
-            <CommunityGridItem
-              key={`community-slot-${index}`}
-              joinLink="https://t.me/"
-            />
-          );
+          items.push(<CommunityGridItem key={`cs-${index}`} joinLink="https://t.me/" />);
         } else if (cycle === 4) {
-          // Banner Edukasi/Tips setelah 84 item
-          items.push(
-            <TipGridItem
-              key={`tip-slot-${index}`}
-              tutorialLink="https://shopee.co.id/m/gratis-ongkir"
-            />
-          );
+          items.push(<TipGridItem key={`ts-${index}`} tutorialLink="https://shopee.co.id/" />);
         } else if (cycle % 2 === 1) {
           items.push(
             <PromoGridItem 
-              key={`promo-slot-${index}`} 
-              title="🎁 Kode Promo Spesial Hari Ini!" 
-              description="Gunakan kode 'RACUNSHOPEE' untuk mendapatkan ekstra diskon s.d 50rb."
-              buttonText="Klaim Voucher"
-              link="https://shopee.co.id/m/cashback-voucher"
-              badgeText="Ad"
+              key={`pslo-${index}`} 
+              title="🎁 Kode Promo Spesial!" 
+              description="Potongan s.d 50rb untuk pengguna baru." 
+              link="https://shopee.co.id/" 
+              buttonText="Cek Now"
             />
           );
         } else {
           items.push(
             <PromoGridItem 
-              key={`promo-slot-${index}`}
-              title="💥 Flash Sale Akan Segera Berakhir!" 
-              description="Borong produk idamanmu dengan harga di bawah 50rb, stok terbatas!"
-              buttonText="Ke Halaman Promo"
-              link="https://shopee.co.id/flash_sale"
-              badgeText="Flash Sale"
+              key={`fslo-${index}`} 
+              title="💥 Flash Sale Terbatas!" 
+              description="Harga mulai dari Rp 99,- saja!" 
+              link="https://shopee.co.id/flash_sale" 
+              buttonText="Serbu"
             />
           );
         }
       }
     });
+
+    // PASTIKAN BARIS TERAKHIR PENUH (Agar Grid tidak compang-camping di bawah)
+    const finalRemainderDesktop = items.length % 7;
+    if (finalRemainderDesktop !== 0) {
+      for (let i = 0; i < 7 - finalRemainderDesktop; i++) {
+        items.push(<div key={`final-spacer-md-${i}`} className="hidden md:block" />);
+      }
+    }
+    const finalRemainderMobile = items.length % 3;
+    if (finalRemainderMobile !== 0) {
+      for (let i = 0; i < 3 - finalRemainderMobile; i++) {
+        items.push(<div key={`final-spacer-sm-${i}`} className="md:hidden" />);
+      }
+    }
 
     return items;
   };
