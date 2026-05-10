@@ -1,8 +1,8 @@
 ---
-title: Dunia Video AI: Bikin Animasi Modal Teks!
+title: "Dunia Video AI: Bikin Animasi Modal Teks!"
 date: 2024-05-10
 tag: Video AI
-description: Cara bikin video sinematik, animasi, atau bahkan avatar berbicara menggunakan AI.
+description: "Cara bikin video sinematik, animasi, atau bahkan avatar berbicara menggunakan AI."
 ---
 
 Zaman sekarang bikin video sinematik, animasi, atau bahkan avatar berbicara nggak perlu sewa studio atau jago animasi. Cukup pakai AI! Berikut adalah beberapa AI Video Generator terbaik yang bisa bantu kamu bikin konten keren.

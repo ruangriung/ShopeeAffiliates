@@ -122,9 +122,17 @@ export default function App() {
     }, 3000);
   }, []);
 
+  const lastScrollTime = useRef(0);
   const handleScroll = () => {
+    const now = Date.now();
+    if (now - lastScrollTime.current < 100) return;
+    lastScrollTime.current = now;
+
     if (mainRef.current) {
-      setShowScrollTop(mainRef.current.scrollTop > 300);
+      const shouldShow = mainRef.current.scrollTop > 300;
+      if (showScrollTop !== shouldShow) {
+        setShowScrollTop(shouldShow);
+      }
     }
   };
 

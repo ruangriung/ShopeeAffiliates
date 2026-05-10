@@ -5,38 +5,21 @@ import customProductsMarkdown from './content/custom-products.md?raw';
 const blogModules = import.meta.glob('./content/blog/*.md', { query: '?raw', eager: true });
 const aiTipsModules = import.meta.glob('./content/ai-tips/*.md', { query: '?raw', eager: true });
 
-/**
- * Simple Frontmatter Parser to avoid Node.js Buffer dependencies
- */
-const parseFrontmatter = (raw: string) => {
-  const match = raw.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) return { data: {}, content: raw };
-
-  const yamlBlock = match[1];
-  const content = match[2];
-  const data: Record<string, any> = {};
-
-  yamlBlock.split('\n').forEach(line => {
-    const [key, ...valueParts] = line.split(':');
-    if (key && valueParts.length > 0) {
-      data[key.trim()] = valueParts.join(':').trim();
-    }
-  });
-
-  return { data, content };
-};
+import fm from 'front-matter';
 
 const parseArticle = (path: string, module: any): Article => {
   const slug = path.split('/').pop()?.replace('.md', '') || '';
   const rawContent = (module as { default: string }).default;
-  const { data, content } = parseFrontmatter(rawContent);
+  
+  // Use front-matter to parse
+  const { attributes, body } = fm<any>(rawContent);
   
   return {
     slug,
-    title: data.title || 'Untitled',
-    content: content,
-    tag: data.tag,
-    date: data.date
+    title: attributes.title || 'Untitled',
+    content: body,
+    tag: attributes.tag,
+    date: attributes.date ? String(attributes.date) : undefined
   };
 };
 
@@ -46,7 +29,7 @@ export const aiTipsArticles: Article[] = Object.entries(aiTipsModules).map(([pat
 export { customProductsMarkdown };
 
 export const parseCustomProducts = (md: string): Product[] => {
-  const { content: cleanMd } = parseFrontmatter(md);
+  const { body: cleanMd } = fm(md);
   const products: Product[] = [];
   const lines = cleanMd.split('\n');
   let currentProduct: Partial<Product> | null = null;

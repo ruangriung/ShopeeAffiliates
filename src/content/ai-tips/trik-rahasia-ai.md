@@ -1,8 +1,8 @@
 ---
-title: Trik Rahasia Menguasai AI
+title: "Trik Rahasia Menguasai AI"
 date: 2024-05-10
 tag: AI Tips
-description: Trik-trik prompt rahasia yang bisa langsung kamu praktekkan di AI favoritmu!
+description: "Trik-trik prompt rahasia yang bisa langsung kamu praktekkan di AI favoritmu!"
 ---
 
 AI seperti Google Gemini, ChatGPT, Claude, dan lainnya adalah asisten super canggih yang bisa membantu kamu melakukan banyak tugas dengan lebih cepat dan kreatif. Kuncinya ada pada "Prompt" atau perintah yang kamu berikan. Berikut adalah trik-trik prompt rahasia yang bisa langsung kamu praktekkan di AI favoritmu!

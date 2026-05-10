@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowLeft, BookOpen, Clock, Tag } from 'lucide-react';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkSmartypants from 'remark-smartypants';
 import { Article } from '../types';
 
 interface Props {
@@ -45,7 +47,7 @@ export const ArticleDetail: React.FC<Props> = ({ article, onBack }) => {
 
         <div className="p-6 md:p-12 max-w-4xl mx-auto text-[#444]">
           <div className="prose prose-orange lg:prose-lg max-w-none">
-            <Markdown>{article.content}</Markdown>
+            <Markdown remarkPlugins={[remarkGfm, remarkSmartypants]}>{article.content}</Markdown>
           </div>
           
           <hr className="my-10 border-[#e8e8e8]" />

@@ -1,8 +1,8 @@
 ---
-title: Review Gadget Kekinian Anti Boncos! Rekomendasi Tahun Ini
+title: "Review Gadget Kekinian Anti Boncos! Rekomendasi Tahun Ini"
 date: 2024-05-10
 tag: Review Gadget
-description: Mencari gadget zaman sekarang emang gampang-gampang susah. Mau yang spek dewa, tapi dompet menjerit.
+description: "Mencari gadget zaman sekarang emang gampang-gampang susah. Mau yang spek dewa, tapi dompet menjerit."
 ---
 
 Mencari gadget zaman sekarang emang gampang-gampang susah. Mau yang spek dewa, tapi dompet menjerit. Mau yang murah, tapi lemotnya minta ampun. Nah, di artikel kali ini kita akan bahas rekomendasi gadget yang *worth it* banget buat dibeli!

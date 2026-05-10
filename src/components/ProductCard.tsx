@@ -9,7 +9,7 @@ interface Props {
   onShare: (product: Product) => void;
 }
 
-export const ProductCard: React.FC<Props> = ({ product, isWishlisted, onToggleWishlist, onShare }) => {
+export const ProductCard = React.memo<Props>(({ product, isWishlisted, onToggleWishlist, onShare }) => {
   const formatRupiah = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -26,7 +26,7 @@ export const ProductCard: React.FC<Props> = ({ product, isWishlisted, onToggleWi
       href={product.affiliateLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-white border border-[#e8e8e8] rounded-[4px] flex flex-col p-[6px] md:p-[8px] transition duration-200 hover:shadow-[0_2px_10px_rgba(0,0,0,0.1)] hover:border-[#ee4d2d] text-decoration-none group relative"
+      className="bg-white border border-[#e8e8e8] rounded-[4px] flex flex-col p-[6px] md:p-[8px] transition duration-200 hover:shadow-[0_2px_10px_rgba(0,0,0,0.1)] hover:border-[#ee4d2d] text-decoration-none group relative [content-visibility:auto] contain-intrinsic-size-[200px]"
       title={product.name}
     >
       {isCustom && (
@@ -37,9 +37,9 @@ export const ProductCard: React.FC<Props> = ({ product, isWishlisted, onToggleWi
       <div className="w-full aspect-square relative bg-[#eee] mb-[6px] overflow-hidden shrink-0 rounded-[2px]">
         <img
           loading="lazy"
-          src={product.imageUrl}
+          src={`${product.imageUrl}${product.imageUrl.includes('?') ? '&' : '?'}w=300&q=75`}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute top-0 right-0 bg-[#ffe97a] text-[#ee4d2d] text-[9px] md:text-[10px] px-[6px] py-[2px] font-bold rounded-bl-[4px]">
           Hot
@@ -79,18 +79,15 @@ export const ProductCard: React.FC<Props> = ({ product, isWishlisted, onToggleWi
       </div>
       
       <div className="mt-auto">
-        <button 
-          className="w-full block bg-[#ee4d2d] text-white text-center text-[10px] md:text-[11px] py-[6px] md:py-[8px] min-h-[28px] md:min-h-[32px] rounded-[2px] uppercase font-bold transition-opacity hover:opacity-90"
-          aria-label={`Beli ${product.name} di Shopee`}
-          onClick={(e) => {
-             // Only for visual effect, a tag takes care of navigation
-             // We can stopPropagation so we don't trigger the standard link if we wanted to handle clicks manually, 
-             // but here the wrapping <a> tag is desirable.
-          }}
+        <div 
+          className="w-full block bg-[#ee4d2d] text-white text-center text-[10px] md:text-[11px] py-[6px] md:py-[8px] min-h-[28px] md:min-h-[32px] rounded-[2px] uppercase font-bold transition-opacity hover:opacity-90 flex items-center justify-center"
         >
           Beli
-        </button>
+        </div>
       </div>
     </a>
   );
-};
+});
+
+ProductCard.displayName = 'ProductCard';
+

@@ -19,7 +19,7 @@ interface Props {
   onNavigate?: (slug: string) => void;
 }
 
-export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishlist, onShare, onCopyPrompt, onNavigate }) => {
+export const ProductGrid = React.memo<Props>(({ products, wishlist, onToggleWishlist, onShare, onCopyPrompt, onNavigate }) => {
   const renderGridItems = () => {
     const items: React.ReactNode[] = [];
     
@@ -36,7 +36,6 @@ export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishl
       );
 
       // Selipkan kartu Blog dan AI di posisi strategis
-      // Kita selipkan di tempat yang menarik perhatian
       if (index === 6) {
         items.push(
           <div key={`video-ai-card-${index}`} className="col-span-1 border-none">
@@ -61,25 +60,10 @@ export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishl
 
       // 2. Iklan & Banner Dinamis - Muncul setiap 21 produk
       if ((index + 1) % 21 === 0 && index > 0) {
-        // ANTI-GRID KOSONG: Isi baris desktop (7 kol) agar banner mulai di baris baru
-        const remainderDesktop = items.length % 7;
-        if (remainderDesktop !== 0) {
-          for (let i = 0; i < 7 - remainderDesktop; i++) {
-            items.push(<div key={`spacer-md-${index}-${i}`} className="hidden md:block" />);
-          }
-        }
-        
-        // Anti-grid kosong mobile (3 kol)
-        const remainderMobile = items.length % 3;
-        if (remainderMobile !== 0) {
-          for (let i = 0; i < 3 - remainderMobile; i++) {
-            items.push(<div key={`spacer-sm-${index}-${i}`} className="md:hidden" />);
-          }
-        }
-
         const cycle = ((index + 1) / 21);
         
-        // Banner (selalu col-span-full)
+        // Banner (col-span-full akan otomatis pindah baris jika tidak muat, 
+        // dan grid-flow-dense akan mengisi celah sebelumnya dengan produk selanjutnya)
         if (cycle === 1) {
           items.push(<PromptGridItem key={`ps-${index}`} onCopy={onCopyPrompt || (() => {})} />);
         } else if (cycle === 2) {
@@ -112,27 +96,16 @@ export const ProductGrid: React.FC<Props> = ({ products, wishlist, onToggleWishl
       }
     });
 
-    // PASTIKAN BARIS TERAKHIR PENUH (Agar Grid tidak compang-camping di bawah)
-    const finalRemainderDesktop = items.length % 7;
-    if (finalRemainderDesktop !== 0) {
-      for (let i = 0; i < 7 - finalRemainderDesktop; i++) {
-        items.push(<div key={`final-spacer-md-${i}`} className="hidden md:block" />);
-      }
-    }
-    const finalRemainderMobile = items.length % 3;
-    if (finalRemainderMobile !== 0) {
-      for (let i = 0; i < 3 - finalRemainderMobile; i++) {
-        items.push(<div key={`final-spacer-sm-${i}`} className="md:hidden" />);
-      }
-    }
-
     return items;
   };
 
   return (
-    <div className="flex-1 p-[8px] md:p-[12px] grid grid-cols-3 md:grid-cols-7 gap-[6px] md:gap-[12px]">
+    <div className="flex-1 p-[8px] md:p-[12px] grid grid-cols-3 md:grid-cols-7 grid-flow-row-dense gap-[6px] md:gap-[12px]">
       {renderGridItems()}
     </div>
   );
-};
+});
+
+ProductGrid.displayName = 'ProductGrid';
+
 
