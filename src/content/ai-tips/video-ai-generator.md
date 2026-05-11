@@ -20,10 +20,12 @@ HeyGen dan D-ID bisa bikin foto atau avatar 3D kamu ngomong sesuatu dengan bibir
 ### 3. Trik Prompts untuk Hasil Optimal
 Meminta AI membuat video itu beda dengan gambar. Kamu perlu deskripsikan *pergerakannya*.
 
-```text
-PROMPT BIASA:
-"Seorang pria berjalan di hujan"
-
-PROMPT SINEMATIK:
-"Cinematic tracking shot, a lone man wearing a black trench coat walking down a neon-lit cyberpunk alley in heavy rain, slow motion, reflections on wet pavement, 8k resolution, photorealistic."
-```
+> **Contoh Perbandingan Prompt:**
+> 
+> **PROMPT BIASA:**
+> "Seorang pria berjalan di hujan"
+> 
+> **PROMPT SINEMATIK:**
+> "Cinematic tracking shot, a lone man wearing a black trench coat 
+> walking down a neon-lit cyberpunk alley in heavy rain, slow motion, 
+> reflections on wet pavement, 8k resolution, photorealistic."

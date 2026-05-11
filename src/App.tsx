@@ -300,6 +300,7 @@ export default function App() {
             <>
               <ProductGrid 
                 products={filteredAndSortedProducts} 
+                articles={allArticles}
                 wishlist={wishlist} 
                 onToggleWishlist={toggleWishlist} 
                 onShare={shareProduct}

@@ -1,17 +1,16 @@
 import React from 'react';
-import { Product } from '../types';
+import { Product, Article } from '../types';
 import { ProductCard } from './ProductCard';
 import { PromoGridItem } from './PromoGridItem';
 import { PromptGridItem } from './PromptGridItem';
 import { DriveGridItem } from './DriveGridItem';
 import { CommunityGridItem } from './CommunityGridItem';
 import { TipGridItem } from './TipGridItem';
-import { BlogCard } from './BlogCard';
-import { GeminiTipCard } from './GeminiTipCard';
-import { VideoAICard } from './VideoAICard';
+import { ArticleCard } from './ArticleCard';
 
 interface Props {
   products: Product[];
+  articles: Article[];
   wishlist: Set<string>;
   onToggleWishlist: (id: string, name?: string) => void;
   onShare: (product: Product) => void;
@@ -19,9 +18,11 @@ interface Props {
   onNavigate?: (slug: string) => void;
 }
 
-export const ProductGrid = React.memo<Props>(({ products, wishlist, onToggleWishlist, onShare, onCopyPrompt, onNavigate }) => {
+export const ProductGrid = React.memo<Props>(({ products, articles, wishlist, onToggleWishlist, onShare, onCopyPrompt, onNavigate }) => {
   const renderGridItems = () => {
     const items: React.ReactNode[] = [];
+    let articleIndex = 0;
+    const articleSpacing = 8; // Tampilkan artikel setiap 8 produk
     
     products.forEach((product, index) => {
       // 1. Tambahkan produk ke grid
@@ -35,27 +36,19 @@ export const ProductGrid = React.memo<Props>(({ products, wishlist, onToggleWish
         />
       );
 
-      // Selipkan kartu Blog dan AI di posisi strategis
-      if (index === 6) {
+      // Selipkan Artikel dari folder content secara dinamis
+      if ((index + 1) % articleSpacing === 0 && articleIndex < articles.length) {
+        const article = articles[articleIndex];
         items.push(
-          <div key={`video-ai-card-${index}`} className="col-span-1 border-none">
-             <VideoAICard onClick={() => onNavigate && onNavigate('video-ai-generator')} />
+          <div key={`article-card-${article.slug}-${index}`} className="col-span-1 border-none">
+             <ArticleCard 
+              article={article} 
+              index={articleIndex}
+              onClick={() => onNavigate && onNavigate(article.slug)} 
+             />
           </div>
         );
-      }
-      if (index === 13) {
-        items.push(
-          <div key={`blog-card-${index}`} className="col-span-1 border-none">
-             <BlogCard onClick={() => onNavigate && onNavigate('review-gadget')} />
-          </div>
-        );
-      }
-      if (index === 20) {
-        items.push(
-          <div key={`gemini-card-${index}`} className="col-span-1 border-none">
-             <GeminiTipCard onClick={() => onNavigate && onNavigate('trik-rahasia-ai')} />
-          </div>
-        );
+        articleIndex++;
       }
 
       // 2. Iklan & Banner Dinamis - Muncul setiap 21 produk
