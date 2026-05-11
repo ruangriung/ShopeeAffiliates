@@ -24,6 +24,22 @@ export const ProductGrid = React.memo<Props>(({ products, articles, wishlist, on
     let articleIndex = 0;
     const articleSpacing = 8; // Tampilkan artikel setiap 8 produk
     
+    // Jika tidak ada produk (misal: filter kategori Artikel), tampilkan semua artikel saja
+    if (products.length === 0 && articles.length > 0) {
+      articles.forEach((article, index) => {
+        items.push(
+          <div key={`article-card-${article.slug}-${index}`} className="col-span-1 border-none">
+             <ArticleCard 
+              article={article} 
+              index={index}
+              onClick={() => onNavigate && onNavigate(article.slug)} 
+             />
+          </div>
+        );
+      });
+      return items;
+    }
+
     products.forEach((product, index) => {
       // 1. Tambahkan produk ke grid
       items.push(

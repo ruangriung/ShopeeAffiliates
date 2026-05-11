@@ -7,10 +7,19 @@ import { Article } from '../types';
 
 interface Props {
   article: Article;
+  allArticles: Article[];
   onBack: () => void;
 }
 
-export const ArticleDetail: React.FC<Props> = ({ article, onBack }) => {
+export const ArticleDetail: React.FC<Props> = ({ article, allArticles, onBack }) => {
+  // Ambil 3 artikel lain secara acak sebagai "Artikel Terkait"
+  const relatedArticles = React.useMemo(() => {
+    return allArticles
+      .filter(a => a.slug !== article.slug)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
+  }, [allArticles, article.slug]);
+
   return (
     <div className="w-full p-4 animate-fade-in-up">
       <button 
@@ -21,7 +30,7 @@ export const ArticleDetail: React.FC<Props> = ({ article, onBack }) => {
         Kembali
       </button>
 
-      <div className="bg-white rounded-[12px] overflow-hidden shadow-sm border border-[#e8e8e8]">
+      <div className="bg-white rounded-[12px] overflow-hidden shadow-sm border border-[#e8e8e8] mb-10">
          {/* Hero Header */}
          <div className="bg-gradient-to-r from-orange-500 to-red-600 p-8 md:p-12 text-white relative flex flex-col items-center text-center">
            <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -71,6 +80,33 @@ export const ArticleDetail: React.FC<Props> = ({ article, onBack }) => {
           </div>
         </div>
       </div>
+
+      {/* Artikel Terkait */}
+      {relatedArticles.length > 0 && (
+        <div className="max-w-4xl mx-auto mb-20">
+          <h2 className="text-[18px] font-bold text-[#222] mb-6 flex items-center gap-2">
+            <div className="w-1.5 h-6 bg-[#ee4d2d] rounded-full"></div>
+            Artikel Terkait Lainnya
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {relatedArticles.map((rel) => (
+              <div 
+                key={rel.slug}
+                onClick={() => window.location.hash = `#/article/${rel.slug}`}
+                className="bg-white rounded-[8px] p-4 border border-[#e8e8e8] hover:border-[#ee4d2d] hover:shadow-md transition-all cursor-pointer group"
+              >
+                <div className="text-[10px] uppercase font-bold text-[#ee4d2d] mb-2">{rel.tag}</div>
+                <h3 className="text-[14px] font-bold text-[#222] group-hover:text-[#ee4d2d] transition-colors line-clamp-2">
+                  {rel.title}
+                </h3>
+                <div className="mt-3 text-[12px] text-[#757575] flex items-center gap-1">
+                  Baca Selengkapnya <ArrowLeft className="w-3 h-3 rotate-180" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

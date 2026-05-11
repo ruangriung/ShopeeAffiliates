@@ -8,7 +8,20 @@ import { ArticleDetail } from './components/ArticleDetail';
 import { customProductsMarkdown, parseCustomProducts, blogArticles, aiTipsArticles } from './config';
 
 export default function App() {
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activePage, setActivePage] = useState<'home' | 'article'>('home');
+  const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const allArticles = useMemo(() => [...blogArticles, ...aiTipsArticles], []);
+  
+  const filteredArticles = useMemo(() => {
+    if (activeCategory === 'All') return allArticles;
+    if (activeCategory === 'AI Tips') return aiTipsArticles;
+    if (activeCategory === 'Blog') return blogArticles;
+    return [];
+  }, [allArticles, activeCategory]);
   
   const initializeProducts = useCallback(() => {
     const customProducts = parseCustomProducts(customProductsMarkdown);
@@ -39,23 +52,37 @@ export default function App() {
     return finalProducts;
   }, []);
 
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [searchQuery, setSearchQuery] = useState('');
   const [allProducts, setAllProducts] = useState<Product[]>(initializeProducts());
-  const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
-  const [activePage, setActivePage] = useState<'home' | 'article'>('home');
-  const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
 
   const currentArticle = useMemo(() => 
     allArticles.find(a => a.slug === currentArticleSlug), 
     [allArticles, currentArticleSlug]
   );
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#/article/')) {
+        const slug = hash.replace('#/article/', '');
+        setCurrentArticleSlug(slug);
+        setActivePage('article');
+        scrollToTop();
+      } else if (hash === '' || hash === '#/') {
+        setActivePage('home');
+        setCurrentArticleSlug(null);
+        scrollToTop();
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const handleNavigateToArticle = (slug: string) => {
-    setCurrentArticleSlug(slug);
-    setActivePage('article');
-    scrollToTop();
+    window.location.hash = `#/article/${slug}`;
   };
 
   const loadMore = useCallback(() => {
@@ -201,7 +228,7 @@ export default function App() {
         <div className="flex w-full md:w-auto items-center justify-between md:justify-start gap-[12px]">
           <div className="flex items-center gap-[12px]">
             <div 
-              onClick={() => setActivePage('home')}
+              onClick={() => window.location.hash = '/'}
               className="bg-[#ee4d2d] text-white px-[8px] py-[4px] font-bold rounded-[2px] text-[18px] cursor-pointer hover:bg-[#d74326] transition-colors"
             >
               Shopee Affiliate
@@ -256,7 +283,12 @@ export default function App() {
       <CategoryFilter
         categories={categories}
         activeCategory={activeCategory}
-        onSelect={(cat) => { setActiveCategory(cat); setActivePage('home'); }}
+        onSelect={(cat) => { 
+          setActiveCategory(cat); 
+          if (window.location.hash !== '' && window.location.hash !== '#/') {
+            window.location.hash = '/';
+          }
+        }}
       />
 
       <main 
@@ -296,11 +328,11 @@ export default function App() {
             </div>
           </div>
           
-          {filteredAndSortedProducts.length > 0 ? (
+          {filteredAndSortedProducts.length > 0 || filteredArticles.length > 0 ? (
             <>
               <ProductGrid 
                 products={filteredAndSortedProducts} 
-                articles={allArticles}
+                articles={filteredArticles}
                 wishlist={wishlist} 
                 onToggleWishlist={toggleWishlist} 
                 onShare={shareProduct}
@@ -344,12 +376,16 @@ export default function App() {
           )}
         </div>
         ) : activePage === 'article' && currentArticle ? (
-          <ArticleDetail article={currentArticle} onBack={() => setActivePage('home')} />
+          <ArticleDetail 
+            article={currentArticle} 
+            allArticles={allArticles}
+            onBack={() => window.location.hash = '/'} 
+          />
         ) : (
           <div className="flex items-center justify-center py-20">
              <div className="text-center">
                 <h2 className="text-xl font-bold mb-4">Halaman Tidak Ditemukan</h2>
-                <button onClick={() => setActivePage('home')} className="text-[#ee4d2d] hover:underline">Kembali ke Beranda</button>
+                <button onClick={() => window.location.hash = '/'} className="text-[#ee4d2d] hover:underline">Kembali ke Beranda</button>
              </div>
           </div>
         )}

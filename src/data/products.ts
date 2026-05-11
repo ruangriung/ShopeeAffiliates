@@ -6,7 +6,9 @@ export const categories = [
   'Makanan', 
   'Kecantikan', 
   'Rumah Tangga', 
-  'Olahraga'
+  'Olahraga',
+  'AI Tips',
+  'Blog'
 ];
 
 export const generateProducts = (startIndex: number, count: number): Product[] => {
