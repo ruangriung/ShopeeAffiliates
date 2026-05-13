@@ -3,7 +3,7 @@ import { Product, Article } from './types';
 // Dynamic import for content
 const blogModules = import.meta.glob('./content/blog/*.md', { query: '?raw', eager: true });
 const aiTipsModules = import.meta.glob('./content/ai-tips/*.md', { query: '?raw', eager: true });
-const productModules = import.meta.glob('./content/products/*.md', { query: '?raw', eager: true });
+const productModules = import.meta.glob('./content/products/**/*.md', { query: '?raw', eager: true });
 
 import fm from 'front-matter';
 
