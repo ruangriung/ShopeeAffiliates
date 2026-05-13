@@ -20,6 +20,61 @@ export const ArticleDetail: React.FC<Props> = ({ article, allArticles, onBack })
       .slice(0, 3);
   }, [allArticles, article.slug]);
 
+  React.useEffect(() => {
+    // SEO Update
+    const previousTitle = document.title;
+    document.title = `${article.title} - Katalog Pilihan`;
+    
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const previousDesc = metaDesc?.getAttribute('content');
+    
+    if (metaDesc) {
+      metaDesc.setAttribute('content', article.excerpt || article.content.substring(0, 160).replace(/[#*`]/g, '').trim());
+    }
+
+    // Schema.org Dynamic Injection
+    const schemaId = 'dynamic-article-schema';
+    let script = document.getElementById(schemaId) as HTMLScriptElement;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = schemaId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": article.title,
+      "description": article.excerpt || article.content.substring(0, 160).replace(/[#*`]/g, '').trim(),
+      "image": article.image || "https://bikinsendiri.my.id/shopeaff.webp",
+      "author": {
+        "@type": "Person",
+        "name": "Admin Katalog Pilihan"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Katalog Pilihan",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://bikinsendiri.my.id/shopeaff.webp"
+        }
+      },
+      "datePublished": article.date || new Date().toISOString()
+    };
+
+    script.text = JSON.stringify(schemaData);
+
+    return () => {
+      document.title = previousTitle;
+      if (metaDesc && previousDesc) {
+        metaDesc.setAttribute('content', previousDesc);
+      }
+      const scriptToRemove = document.getElementById(schemaId);
+      if (scriptToRemove) scriptToRemove.remove();
+    };
+  }, [article]);
+
   return (
     <div className="w-full p-4 animate-fade-in-up">
       <button 

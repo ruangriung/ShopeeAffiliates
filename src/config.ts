@@ -4,6 +4,7 @@ import { Product, Article } from './types';
 const blogModules = import.meta.glob('./content/blog/*.md', { query: '?raw', eager: true });
 const aiTipsModules = import.meta.glob('./content/ai-tips/*.md', { query: '?raw', eager: true });
 const productModules = import.meta.glob('./content/products/**/*.md', { query: '?raw', eager: true });
+const pagesModules = import.meta.glob('./content/pages/*.md', { query: '?raw', eager: true });
 
 import fm from 'front-matter';
 
@@ -44,6 +45,7 @@ const parseProduct = (path: string, module: any): Product => {
 
 export const blogArticles: Article[] = Object.entries(blogModules).map(([path, module]) => parseArticle(path, module));
 export const aiTipsArticles: Article[] = Object.entries(aiTipsModules).map(([path, module]) => parseArticle(path, module));
+export const staticPages: Article[] = Object.entries(pagesModules).map(([path, module]) => parseArticle(path, module));
 export const customProducts: Product[] = Object.entries(productModules).map(([path, module]) => parseProduct(path, module));
 
 // We keep these exports for backward compatibility in App.tsx

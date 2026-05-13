@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://bikinsendiri.my.id/</loc>
+    <lastmod>2024-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- Pages -->
+  <url>
+    <loc>https://bikinsendiri.my.id/#/page/about</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/page/kebijakan-privasi</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/page/ketentuan-layanan</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/page/kontak</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <!-- Blog Articles -->
+  <url>
+    <loc>https://bikinsendiri.my.id/#/article/panduan-shopee-affiliate</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/article/review-gadget</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/article/review-glad2glow-7in1</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <!-- AI Tips -->
+  <url>
+    <loc>https://bikinsendiri.my.id/#/article/otomasi-konten-ai</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/article/trik-rahasia-ai</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bikinsendiri.my.id/#/article/video-ai-generator</loc>
+    <lastmod>2024-05-14</lastmod>
+    <priority>0.7</priority>
+  </url>
+</urlset>

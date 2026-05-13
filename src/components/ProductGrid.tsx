@@ -2,7 +2,6 @@ import React from 'react';
 import { Product, Article } from '../types';
 import { ProductCard } from './ProductCard';
 import { PromoGridItem } from './PromoGridItem';
-import { PromptGridItem } from './PromptGridItem';
 import { DriveGridItem } from './DriveGridItem';
 import { CommunityGridItem } from './CommunityGridItem';
 import { TipGridItem } from './TipGridItem';
@@ -74,7 +73,7 @@ export const ProductGrid = React.memo<Props>(({ products, articles, wishlist, on
         // Banner (col-span-full akan otomatis pindah baris jika tidak muat, 
         // dan grid-flow-dense akan mengisi celah sebelumnya dengan produk selanjutnya)
         if (cycle === 1) {
-          items.push(<PromptGridItem key={`ps-${index}`} onCopy={onCopyPrompt || (() => {})} />);
+          // Banner prompt sudah dihapus
         } else if (cycle === 2) {
           items.push(<DriveGridItem key={`ds-${index}`} driveLink="https://drive.google.com/drive" />);
         } else if (cycle === 3) {
@@ -116,5 +115,3 @@ export const ProductGrid = React.memo<Props>(({ products, articles, wishlist, on
 });
 
 ProductGrid.displayName = 'ProductGrid';
-
-

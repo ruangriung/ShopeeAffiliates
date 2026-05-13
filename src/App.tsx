@@ -5,7 +5,7 @@ import { ProductGrid } from './components/ProductGrid';
 import { Search, Heart, ArrowUp, CheckCircle, Info } from 'lucide-react';
 import { Product, Article } from './types';
 import { ArticleDetail } from './components/ArticleDetail';
-import { customProducts, blogArticles, aiTipsArticles } from './config';
+import { customProducts, blogArticles, aiTipsArticles, staticPages } from './config';
 
 export default function App() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
@@ -14,7 +14,7 @@ export default function App() {
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const allArticles = useMemo(() => [...blogArticles, ...aiTipsArticles], []);
+  const allArticles = useMemo(() => [...blogArticles, ...aiTipsArticles, ...staticPages], []);
   
   const filteredArticles = useMemo(() => {
     if (activeCategory === 'All') return allArticles;
@@ -44,6 +44,11 @@ export default function App() {
         setCurrentArticleSlug(slug);
         setActivePage('article');
         scrollToTop();
+      } else if (hash.startsWith('#/page/')) {
+        const slug = hash.replace('#/page/', '');
+        setCurrentArticleSlug(slug);
+        setActivePage('article');
+        scrollToTop();
       } else if (hash === '' || hash === '#/') {
         setActivePage('home');
         setCurrentArticleSlug(null);
@@ -56,6 +61,17 @@ export default function App() {
 
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  useEffect(() => {
+    if (activePage === 'home') {
+      document.title = 'Katalog Pilihan - Rekomendasi Produk Shopee Terbaik';
+      // Update meta description back to default if needed
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', 'Katalog Pilihan adalah platform kurasi produk Shopee affiliate terbaik. Temukan berbagai barang unik, berkualitas, dan termurah!');
+      }
+    }
+  }, [activePage]);
 
   const lastScrollTime = useRef(0);
   const handleScroll = useCallback(() => {
@@ -210,7 +226,7 @@ export default function App() {
                 onClick={() => window.location.hash = '/'}
                 className="bg-[#ee4d2d] text-white px-[8px] py-[4px] font-bold rounded-[2px] text-[18px] cursor-pointer hover:bg-[#d74326] transition-colors"
               >
-                Shopee Affiliate
+                Katalog Pilihan
               </div>
             </div>
             
@@ -257,6 +273,16 @@ export default function App() {
                 )}
               </button>
             </div>
+            
+            <a 
+              href="https://s.shopee.co.id/8ASu5U2QIE"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#ee4d2d] text-white px-[12px] py-[8px] rounded-[4px] text-[13px] font-bold hover:bg-[#d74326] transition-colors flex items-center gap-2 shadow-sm"
+            >
+              <span>Semua Produk</span>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
       </header>
@@ -279,6 +305,9 @@ export default function App() {
       >
         {activePage === 'home' ? (
           <div className="w-full flex flex-col">
+            {/* Hidden H1 for SEO */}
+            <h1 className="sr-only">Katalog Pilihan - Rekomendasi Produk Shopee Affiliate Terbaik</h1>
+            
             {/* Prompt Section for Social Media Visitors */}
           <div className="flex items-center justify-between px-[12px] pt-[12px] pb-[4px]">
             <span className="text-[12px] text-[#757575]">
@@ -387,6 +416,54 @@ export default function App() {
              </div>
           </div>
         )}
+
+        {/* Footer */}
+        <footer className="bg-white border-t border-[#e8e8e8] py-12 mt-10">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+              <div className="col-span-1 md:col-span-2">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-[#ee4d2d] rounded-[8px] flex items-center justify-center">
+                    <Heart className="text-white w-5 h-5 fill-white" />
+                  </div>
+                  <span className="text-xl font-bold text-[#ee4d2d]">Katalog Pilihan</span>
+                </div>
+                <p className="text-[#757575] text-[14px] leading-relaxed max-w-sm">
+                  Katalog produk pilihan terbaik dari Shopee Affiliate. Kami mengkurasi barang berkualitas untuk membantu Anda berbelanja dengan cerdas.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="font-bold text-[#222] mb-4 text-[15px]">Navigasi</h3>
+                <ul className="space-y-2">
+                  <li><a href="#/" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Beranda</a></li>
+                  <li><a href="#/page/about" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Tentang Kami</a></li>
+                  <li><a href="https://s.shopee.co.id/8ASu5U2QIE" target="_blank" rel="noopener noreferrer" className="text-[#ee4d2d] font-bold hover:underline text-[14px]">Koleksi Lengkap Shopee</a></li>
+                  <li><a href="#/page/kontak" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Hubungi Kami</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-[#222] mb-4 text-[15px]">Legal</h3>
+                <ul className="space-y-2">
+                  <li><a href="#/page/kebijakan-privasi" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Kebijakan Privasi</a></li>
+                  <li><a href="#/page/ketentuan-layanan" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Ketentuan Layanan</a></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="border-t border-[#f0f0f0] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-[#757575] text-[12px]">
+                &copy; {new Date().getFullYear()} Katalog Pilihan. All rights reserved.
+              </p>
+              <div className="flex items-center gap-2 text-[#757575] text-[12px]">
+                <span>Made with</span>
+                <Heart className="w-3 h-3 fill-[#ee4d2d] text-[#ee4d2d]" />
+                <span>for smart shoppers</span>
+              </div>
+            </div>
+          </div>
+        </footer>
       </main>
 
       {/* Confirmation Modal for Clearing Wishlist */}
@@ -423,6 +500,17 @@ export default function App() {
       >
         <ArrowUp className="w-[20px] h-[20px]" />
       </button>
+
+      {/* Floating Collection Button for Mobile */}
+      <a
+        href="https://s.shopee.co.id/8ASu5U2QIE"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-[80px] right-[20px] bg-[#ee4d2d] text-white p-[12px] rounded-full shadow-lg hover:bg-[#d74326] transition-all duration-300 z-40 md:hidden flex items-center justify-center animate-bounce"
+        aria-label="Lihat Semua Produk"
+      >
+        <svg className="w-[24px] h-[24px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
 
       {/* Toast Notification */}
       {toastMessage && (
