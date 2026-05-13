@@ -430,7 +430,67 @@ export default function App() {
                 <ul className="space-y-2">
                   <li><a href="#/" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Beranda</a></li>
                   <li><a href="#/page/about" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Tentang Kami</a></li>
-                  <li>
+                  <li><a href="#/page/kontak" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Hubungi Kami</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-[#222] mb-4 text-[15px]">Legal</h3>
+                <ul className="space-y-2">
+                  <li><a href="#/page/kebijakan-privasi" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Kebijakan Privasi</a></li>
+                  <li><a href="#/page/ketentuan-layanan" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Ketentuan Layanan</a></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="border-t border-[#f0f0f0] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-[#757575] text-[12px]">
+                &copy; {new Date().getFullYear()} Katalog Pilihan. All rights reserved.
+              </p>
+              <div className="flex items-center gap-2 text-[#757575] text-[12px]">
+                <span>Made with</span>
+                <Heart className="w-3 h-3 fill-[#ee4d2d] text-[#ee4d2d]" />
+                <span>for smart shoppers</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </main>
+
+      {/* Confirmation Modal for Clearing Wishlist */}
+      {showClearWishlistConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-[4px] p-6 max-w-sm w-full outline-none shadow-xl">
+            <h2 className="text-[18px] font-bold text-[#222] mb-2">Hapus Semua Wishlist?</h2>
+            <p className="text-[14px] text-[#757575] mb-6">
+              Apakah Anda yakin ingin menghapus semua produk dari wishlist? Tindakan ini tidak dapat dibatalkan.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowClearWishlistConfirm(false)}
+                className="px-4 py-2 text-[13px] font-medium text-[#555] bg-gray-100 rounded-[2px] hover:bg-gray-200 transition-colors"
+              >
+                Batal
+              </button>
+              <button
+                onClick={clearWishlist}
+                className="px-4 py-2 text-[13px] font-bold text-white bg-[#ee4d2d] rounded-[2px] hover:bg-[#d74326] transition-colors shadow-sm"
+              >
+                Ya, Hapus Semua
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Action Button - Scroll to Top */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-[20px] right-[20px] bg-white text-[#ee4d2d] p-[10px] rounded-full shadow-md border border-[#ee4d2d]/20 hover:bg-[#ffe97a] hover:text-[#ee4d2d] transition-all duration-300 z-40 transform ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}
+        aria-label="Kembali ke Atas"
+      >
+        <ArrowUp className="w-[20px] h-[20px]" />
+      </button>
 
       {/* Toast Notification */}
       {toastMessage && (
@@ -448,4 +508,5 @@ export default function App() {
     </div>
   );
 }
+
 
