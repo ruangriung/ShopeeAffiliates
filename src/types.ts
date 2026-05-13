@@ -5,6 +5,8 @@ export interface Product {
   imageUrl: string;
   affiliateLink: string;
   category: string;
+  rating?: number;
+  soldCount?: string;
 }
 
 export interface Article {

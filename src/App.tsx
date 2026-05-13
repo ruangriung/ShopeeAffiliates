@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { products as initialProducts, categories, generateProducts } from './data/products';
+import { categories } from './data/products';
 import { CategoryFilter } from './components/CategoryFilter';
 import { ProductGrid } from './components/ProductGrid';
 import { Search, Heart, ArrowUp, CheckCircle, Info } from 'lucide-react';
 import { Product, Article } from './types';
 import { ArticleDetail } from './components/ArticleDetail';
-import { customProductsMarkdown, parseCustomProducts, blogArticles, aiTipsArticles } from './config';
+import { customProducts, blogArticles, aiTipsArticles } from './config';
 
 export default function App() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
@@ -24,32 +24,8 @@ export default function App() {
   }, [allArticles, activeCategory]);
   
   const initializeProducts = useCallback(() => {
-    const customProducts = parseCustomProducts(customProductsMarkdown);
-    const regularProducts = [...initialProducts];
-    const finalProducts: Product[] = [];
-    
-    // Insert custom products spaced out over regular products (e.g. every 5 items)
-    let customIndex = 0;
-    const spacing = 5;
-    
-    let i = 0;
-    while (i < regularProducts.length) {
-      if (customIndex < customProducts.length && i > 0 && i % spacing === 0) {
-        // Interleave custom products
-        finalProducts.push(customProducts[customIndex]);
-        customIndex++;
-      }
-      finalProducts.push(regularProducts[i]);
-      i++;
-    }
-    
-    // Put remaining custom products at the end if any
-    while (customIndex < customProducts.length) {
-      finalProducts.push(customProducts[customIndex]);
-      customIndex++;
-    }
-
-    return finalProducts;
+    // Hanya gunakan produk affiliate asli dari folder content/products
+    return [...customProducts];
   }, []);
 
   const [allProducts, setAllProducts] = useState<Product[]>(initializeProducts());
@@ -86,17 +62,9 @@ export default function App() {
   };
 
   const loadMore = useCallback(() => {
-    if (isLoading) return;
-    setIsLoading(true);
-    // setTimeout to simulate network loading
-    setTimeout(() => {
-      setAllProducts(prev => [
-        ...prev, 
-        ...generateProducts(prev.length, 21)
-      ]);
-      setIsLoading(false);
-    }, 500);
-  }, [isLoading]);
+    // Fitur load more dinonaktifkan karena produk mock sudah dihapus
+    return;
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -224,58 +192,61 @@ export default function App() {
 
   return (
     <div className="h-screen bg-[#f5f5f5] text-[#222] font-['Helvetica_Neue',Arial,sans-serif] flex flex-col overflow-hidden">
-      <header className="bg-white px-[20px] py-[10px] border-b border-[#e8e8e8] flex flex-col md:flex-row items-center justify-between gap-3 shrink-0">
-        <div className="flex w-full md:w-auto items-center justify-between md:justify-start gap-[12px]">
-          <div className="flex items-center gap-[12px]">
-            <div 
-              onClick={() => window.location.hash = '/'}
-              className="bg-[#ee4d2d] text-white px-[8px] py-[4px] font-bold rounded-[2px] text-[18px] cursor-pointer hover:bg-[#d74326] transition-colors"
-            >
-              Shopee Affiliate
+      <header className="bg-white border-b border-[#e8e8e8] shrink-0 sticky top-0 z-50">
+        <div className="max-w-[1200px] mx-auto px-[12px] md:px-[20px] py-[10px] flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="flex w-full md:w-auto items-center justify-between md:justify-start gap-[12px]">
+            <div className="flex items-center gap-[12px]">
+              <div 
+                onClick={() => window.location.hash = '/'}
+                className="bg-[#ee4d2d] text-white px-[8px] py-[4px] font-bold rounded-[2px] text-[18px] cursor-pointer hover:bg-[#d74326] transition-colors"
+              >
+                Shopee Affiliate
+              </div>
+            </div>
+            
+            {/* Mobile Heart Icon */}
+            <div className="md:hidden flex items-center gap-2">
+              <button 
+                onClick={() => setShowWishlist(!showWishlist)}
+                className="relative flex items-center justify-center p-[6px] rounded-full hover:bg-[#f0f0f0] transition-colors cursor-pointer"
+                title="Lihat Wishlist"
+              >
+                <Heart className={`w-[20px] h-[20px] ${showWishlist ? 'fill-[#ee4d2d] text-[#ee4d2d]' : 'text-[#757575]'}`} />
+                {wishlist.size > 0 && (
+                  <span className="absolute top-0 right-0 bg-[#ee4d2d] text-white text-[9px] font-bold px-[4px] py-[1px] rounded-[10px] transform translate-x-1/4 -translate-y-1/4 border border-white">
+                    {wishlist.size}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
           
-          {/* Mobile Heart Icon */}
-          <div className="md:hidden flex items-center gap-2">
-            <button 
-              onClick={() => setShowWishlist(!showWishlist)}
-              className="relative flex items-center justify-center p-[6px] rounded-full hover:bg-[#f0f0f0] transition-colors cursor-pointer"
-              title="Lihat Wishlist"
-            >
-              <Heart className={`w-[20px] h-[20px] ${showWishlist ? 'fill-[#ee4d2d] text-[#ee4d2d]' : 'text-[#757575]'}`} />
-              {wishlist.size > 0 && (
-                <span className="absolute top-0 right-0 bg-[#ee4d2d] text-white text-[9px] font-bold px-[4px] py-[1px] rounded-[10px] transform translate-x-1/4 -translate-y-1/4 border border-white">
-                  {wishlist.size}
-                </span>
-              )}
-            </button>
+          <div className="flex-1 w-full md:w-auto max-w-[600px] relative">
+            <input 
+              type="text" 
+              placeholder="Cari produk rekomendasi..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#f8f8f8] border border-[#ddd] rounded-[4px] text-[13px] px-[12px] py-[8px] outline-none focus:border-[#ee4d2d] transition-colors"
+            />
           </div>
-        </div>
-        
-        <div className="flex-1 w-full md:w-auto max-w-[500px] relative">
-          <input 
-            type="text" 
-            placeholder="Cari produk rekomendasi..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#f8f8f8] border border-[#ddd] rounded-[4px] text-[13px] px-[12px] py-[8px] outline-none"
-          />
-        </div>
 
-        <div className="flex w-full md:w-auto items-center justify-between md:justify-end gap-[16px] overflow-x-auto pb-1 md:pb-0">
-          <div className="hidden md:flex items-center gap-[12px]">
-            <button 
-              onClick={() => setShowWishlist(!showWishlist)}
-              className="relative flex items-center justify-center p-[6px] rounded-full hover:bg-[#f0f0f0] transition-colors cursor-pointer"
-              title="Lihat Wishlist"
-            >
-              <Heart className={`w-[20px] h-[20px] ${showWishlist ? 'fill-[#ee4d2d] text-[#ee4d2d]' : 'text-[#757575]'}`} />
-              {wishlist.size > 0 && (
-                <span className="absolute top-0 right-0 bg-[#ee4d2d] text-white text-[9px] font-bold px-[4px] py-[1px] rounded-[10px] transform translate-x-1/4 -translate-y-1/4 border border-white">
-                  {wishlist.size}
-                </span>
-              )}
-            </button>
+          <div className="flex items-center justify-end gap-[16px]">
+            <div className="hidden md:flex items-center">
+              <button 
+                onClick={() => setShowWishlist(!showWishlist)}
+                className="relative flex items-center gap-2 px-[12px] py-[8px] rounded-[4px] hover:bg-[#f0f0f0] transition-colors cursor-pointer border border-transparent hover:border-[#ddd]"
+                title="Lihat Wishlist"
+              >
+                <Heart className={`w-[20px] h-[20px] ${showWishlist ? 'fill-[#ee4d2d] text-[#ee4d2d]' : 'text-[#757575]'}`} />
+                <span className="text-[13px] font-medium text-[#555]">Wishlist</span>
+                {wishlist.size > 0 && (
+                  <span className="bg-[#ee4d2d] text-white text-[10px] font-bold px-[5px] py-[1px] rounded-full">
+                    {wishlist.size}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -303,7 +274,7 @@ export default function App() {
             <span className="text-[12px] text-[#757575]">
               {showWishlist ? `Menampilkan ${filteredAndSortedProducts.length} produk di Wishlist` : `Menampilkan ${filteredAndSortedProducts.length} produk`}
             </span>
-            <div className="flex items-center gap-[8px]">
+            <div className="flex items-center gap-[6px] md:gap-[12px]">
               {showWishlist && wishlist.size > 0 && (
                 <button
                   onClick={() => setShowClearWishlistConfirm(true)}
@@ -312,19 +283,36 @@ export default function App() {
                   Hapus Semua Wishlist
                 </button>
               )}
-              <label htmlFor="sort" className="text-[12px] text-[#757575] hidden sm:block">Urutkan:</label>
-              <select 
-                id="sort"
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="bg-white border border-[#ddd] rounded-[2px] text-[12px] px-[8px] py-[4px] outline-none cursor-pointer focus:border-[#ee4d2d]"
-              >
-                <option value="default">Relevansi</option>
-                <option value="price-asc">Harga: Rendah ke Tinggi</option>
-                <option value="price-desc">Harga: Tinggi ke Rendah</option>
-                <option value="name-asc">Nama: A - Z</option>
-                <option value="name-desc">Nama: Z - A</option>
-              </select>
+              <div className="hidden md:flex items-center gap-[4px] mr-2">
+                <button 
+                  onClick={() => setSortOption('price-asc')}
+                  className={`text-[11px] px-[10px] py-[4px] rounded-full border transition-all ${sortOption === 'price-asc' ? 'bg-[#ee4d2d] text-white border-[#ee4d2d]' : 'bg-white text-[#555] border-[#ddd] hover:border-[#ee4d2d]'}`}
+                >
+                  Harga Terendah
+                </button>
+                <button 
+                  onClick={() => setSortOption('price-desc')}
+                  className={`text-[11px] px-[10px] py-[4px] rounded-full border transition-all ${sortOption === 'price-desc' ? 'bg-[#ee4d2d] text-white border-[#ee4d2d]' : 'bg-white text-[#555] border-[#ddd] hover:border-[#ee4d2d]'}`}
+                >
+                  Harga Tertinggi
+                </button>
+              </div>
+
+              <div className="flex items-center gap-[8px]">
+                <label htmlFor="sort" className="text-[12px] text-[#757575] hidden sm:block">Urutkan:</label>
+                <select 
+                  id="sort"
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="bg-white border border-[#ddd] rounded-[2px] text-[12px] px-[8px] py-[6px] outline-none cursor-pointer focus:border-[#ee4d2d] shadow-sm hover:border-[#ccc]"
+                >
+                  <option value="default">Relevansi</option>
+                  <option value="price-asc">Harga: Rendah ke Tinggi</option>
+                  <option value="price-desc">Harga: Tinggi ke Rendah</option>
+                  <option value="name-asc">Nama: A - Z</option>
+                  <option value="name-desc">Nama: Z - A</option>
+                </select>
+              </div>
             </div>
           </div>
           

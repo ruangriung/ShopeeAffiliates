@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product } from '../types';
-import { Heart, Share2, Crown } from 'lucide-react';
+import { Heart, Share2, Crown, Star } from 'lucide-react';
 
 interface Props {
   product: Product;
@@ -29,11 +29,6 @@ export const ProductCard = React.memo<Props>(({ product, isWishlisted, onToggleW
       className="bg-white border border-[#e8e8e8] rounded-[4px] flex flex-col p-[6px] md:p-[8px] transition duration-200 hover:shadow-[0_2px_10px_rgba(0,0,0,0.1)] hover:border-[#ee4d2d] text-decoration-none group relative [content-visibility:auto] contain-intrinsic-size-[200px]"
       title={product.name}
     >
-      {isCustom && (
-        <div className="absolute top-0 left-0 bg-[#eab308] text-white z-10 p-[4px] rounded-tl-[4px] rounded-br-[6px] shadow-sm" title="Produk Kustom">
-          <Crown className="w-[12px] h-[12px] md:w-[14px] md:h-[14px] text-white my-auto fill-white" />
-        </div>
-      )}
       <div className="w-full aspect-square relative bg-[#eee] mb-[6px] overflow-hidden shrink-0 rounded-[2px]">
         <img
           loading="lazy"
@@ -77,6 +72,25 @@ export const ProductCard = React.memo<Props>(({ product, isWishlisted, onToggleW
       <div className="text-[#ee4d2d] font-bold text-[11px] md:text-[13px] mb-[6px] truncate">
         {formatRupiah(product.price)}
       </div>
+
+      {(product.rating || product.soldCount) && (
+        <div className="flex items-center gap-[4px] mb-[8px]">
+          {product.rating && (
+            <div className="flex items-center gap-[2px] text-[10px] text-[#222]">
+              <Star className="w-[10px] h-[10px] fill-[#ee4d2d] text-[#ee4d2d]" />
+              <span className="font-medium">{product.rating}</span>
+            </div>
+          )}
+          {product.rating && product.soldCount && (
+            <div className="h-[8px] w-[1px] bg-gray-300"></div>
+          )}
+          {product.soldCount && (
+            <div className="text-[10px] text-[#757575]">
+              Terjual {product.soldCount}
+            </div>
+          )}
+        </div>
+      )}
       
       <div className="mt-auto">
         <div 
