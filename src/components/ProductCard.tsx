@@ -26,13 +26,13 @@ export const ProductCard = React.memo<Props>(({ product, isWishlisted, onToggleW
       href={product.affiliateLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-white rounded-[4px] overflow-hidden flex flex-col border border-[#e8e8e8] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:border-[#ee4d2d]/30 transition-all duration-200 group relative h-full"
+      className="bg-white border border-[#e8e8e8] rounded-[4px] flex flex-col p-[6px] md:p-[8px] transition duration-200 hover:shadow-[0_2px_10px_rgba(0,0,0,0.1)] hover:border-[#ee4d2d] text-decoration-none group relative h-full"
       style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' } as React.CSSProperties}
       title={product.name}
     >
-      <div className="relative aspect-square overflow-hidden bg-[#f8f8f8]">
+      <div className="w-full aspect-square relative bg-[#eee] mb-[6px] overflow-hidden shrink-0 rounded-[2px]">
         <img 
-          src={product.imageUrl} 
+          src={`${product.imageUrl}${product.imageUrl.includes('?') ? '&' : '?'}w=300&q=75`}
           alt={product.name}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

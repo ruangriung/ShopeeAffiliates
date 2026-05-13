@@ -57,6 +57,21 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  const lastScrollTime = useRef(0);
+  const handleScroll = useCallback(() => {
+    const now = Date.now();
+    if (now - lastScrollTime.current < 100) return;
+    lastScrollTime.current = now;
+
+    if (mainRef.current) {
+      const shouldShow = mainRef.current.scrollTop > 300;
+      setShowScrollTop(prev => {
+        if (prev !== shouldShow) return shouldShow;
+        return prev;
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (mainRef.current) {
       const currentMain = mainRef.current;
@@ -125,19 +140,6 @@ export default function App() {
     }, 3000);
   }, []);
 
-  const lastScrollTime = useRef(0);
-  const handleScroll = () => {
-    const now = Date.now();
-    if (now - lastScrollTime.current < 100) return;
-    lastScrollTime.current = now;
-
-    if (mainRef.current) {
-      const shouldShow = mainRef.current.scrollTop > 300;
-      if (showScrollTop !== shouldShow) {
-        setShowScrollTop(shouldShow);
-      }
-    }
-  };
 
   const scrollToTop = () => {
     if (mainRef.current) {
