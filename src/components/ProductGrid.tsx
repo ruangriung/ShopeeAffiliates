@@ -7,6 +7,7 @@ import { DriveGridItem } from './DriveGridItem';
 import { CommunityGridItem } from './CommunityGridItem';
 import { TipGridItem } from './TipGridItem';
 import { ArticleCard } from './ArticleCard';
+import { VideoGridItem } from './VideoGridItem';
 
 interface Props {
   products: Product[];
@@ -65,6 +66,16 @@ export const ProductGrid = React.memo<Props>(({ products, articles, wishlist, on
           </div>
         );
         articleIndex++;
+      }
+
+      // 1.5 Selipkan Video Review setelah produk ke-4
+      if (index === 3) {
+        items.push(
+          <VideoGridItem 
+            key={`video-review-${index}`} 
+            title="Review Glad2Glow 7in1 Bundle - Worth it?"
+          />
+        );
       }
 
       // 2. Iklan & Banner Dinamis - Muncul setiap 21 produk

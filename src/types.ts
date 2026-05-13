@@ -15,4 +15,6 @@ export interface Article {
   content: string;
   tag?: string;
   date?: string;
+  image?: string;
+  excerpt?: string;
 }

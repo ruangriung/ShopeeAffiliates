@@ -19,7 +19,9 @@ const parseArticle = (path: string, module: any): Article => {
     title: attributes.title || 'Untitled',
     content: body,
     tag: attributes.tag,
-    date: attributes.date ? String(attributes.date) : undefined
+    date: attributes.date ? String(attributes.date) : undefined,
+    image: attributes.image,
+    excerpt: attributes.excerpt
   };
 };
 

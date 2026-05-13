@@ -30,32 +30,46 @@ export const ArticleCard: React.FC<Props> = ({ article, onClick, index }) => {
   return (
     <div 
       onClick={onClick}
-      className={`bg-gradient-to-br ${gradient} border border-transparent rounded-[4px] flex flex-col p-[6px] md:p-[8px] transition duration-200 hover:shadow-[0_2px_10px_rgba(0,0,0,0.15)] hover:scale-[1.02] cursor-pointer text-white relative overflow-hidden h-full group`}
+      className={`relative bg-white border border-[#e8e8e8] rounded-[4px] flex flex-col overflow-hidden transition duration-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:scale-[1.01] cursor-pointer h-full group`}
     >
-      <div className="absolute bottom-[-10px] right-[-10px] opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-500">
-        <BookOpen className="w-20 h-20" />
-      </div>
-      
-      <div className="w-full aspect-square relative bg-white/10 mb-[6px] rounded-[2px] flex flex-col items-center justify-center p-3 text-center border border-white/20">
+      {/* Background Image / Gradient */}
+      <div className={`w-full aspect-video relative overflow-hidden ${!article.image ? `bg-gradient-to-br ${gradient}` : ''}`}>
+        {article.image ? (
+          <img 
+            src={article.image} 
+            alt={article.title} 
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            {icon}
+          </div>
+        )}
+        
         {article.tag && (
-          <div className="bg-white text-orange-600 text-[8px] md:text-[9px] font-bold px-2 py-0.5 rounded-[2px] w-fit mb-2 uppercase tracking-wide shadow-sm">
+          <div className="absolute top-2 left-2 bg-[#ee4d2d] text-white text-[9px] font-bold px-2 py-0.5 rounded-[2px] uppercase tracking-wide shadow-md z-10">
             {article.tag}
           </div>
         )}
-        <div className="bg-white/20 p-2 rounded-full backdrop-blur-sm mb-2">
-          {icon}
-        </div>
-        <h3 className="font-bold text-[11px] md:text-[13px] leading-tight drop-shadow-sm line-clamp-3">
+      </div>
+      
+      <div className="p-3 flex flex-col flex-1">
+        <h3 className="font-bold text-[13px] leading-tight text-[#222] mb-2 line-clamp-2 group-hover:text-[#ee4d2d] transition-colors">
           {article.title}
         </h3>
-      </div>
-      
-      <div className="text-[10px] md:text-[11px] leading-[1.3] overflow-hidden text-white/90 mb-auto mt-1 flex-1 line-clamp-2">
-        Klik untuk membaca tips dan panduan lengkapnya.
-      </div>
-      
-      <div className="mt-[6px] border border-white/50 text-white font-bold text-[10px] md:text-[11px] py-[4px] px-[8px] rounded-[2px] text-center uppercase tracking-wider group-hover:bg-white/20 transition-colors">
-        Baca Selengkapnya
+        
+        {article.excerpt && (
+          <p className="text-[11px] text-[#757575] leading-[1.4] line-clamp-2 mb-3">
+            {article.excerpt}
+          </p>
+        )}
+        
+        <div className="mt-auto flex items-center justify-between">
+          <span className="text-[10px] text-[#999]">{article.date || 'Terbaru'}</span>
+          <div className="flex items-center gap-1 text-[#ee4d2d] text-[11px] font-bold uppercase tracking-wider">
+            Baca <BookOpen className="w-3 h-3" />
+          </div>
+        </div>
       </div>
     </div>
   );

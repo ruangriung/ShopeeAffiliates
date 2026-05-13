@@ -8,7 +8,10 @@ export const categories = [
   'Rumah Tangga', 
   'Olahraga',
   'AI Tips',
-  'Blog'
+  'Blog',
+  'Otomotif',
+  'Kesehatan',
+  'Lain-lain'
 ];
 
 export const generateProducts = (startIndex: number, count: number): Product[] => {
