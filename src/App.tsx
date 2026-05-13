@@ -57,6 +57,14 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  useEffect(() => {
+    if (mainRef.current) {
+      const currentMain = mainRef.current;
+      currentMain.addEventListener('scroll', handleScroll, { passive: true });
+      return () => currentMain.removeEventListener('scroll', handleScroll);
+    }
+  }, [handleScroll]);
+
   const handleNavigateToArticle = (slug: string) => {
     window.location.hash = `#/article/${slug}`;
   };
