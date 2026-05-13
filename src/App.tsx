@@ -274,15 +274,7 @@ export default function App() {
               </button>
             </div>
             
-            <a 
-              href="https://s.shopee.co.id/8ASu5U2QIE"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#ee4d2d] text-white px-[12px] py-[8px] rounded-[4px] text-[13px] font-bold hover:bg-[#d74326] transition-colors flex items-center gap-2 shadow-sm"
-            >
-              <span>Semua Produk</span>
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
+            
           </div>
         </div>
       </header>
@@ -438,79 +430,7 @@ export default function App() {
                 <ul className="space-y-2">
                   <li><a href="#/" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Beranda</a></li>
                   <li><a href="#/page/about" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Tentang Kami</a></li>
-                  <li><a href="https://s.shopee.co.id/8ASu5U2QIE" target="_blank" rel="noopener noreferrer" className="text-[#ee4d2d] font-bold hover:underline text-[14px]">Koleksi Lengkap Shopee</a></li>
-                  <li><a href="#/page/kontak" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Hubungi Kami</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-[#222] mb-4 text-[15px]">Legal</h3>
-                <ul className="space-y-2">
-                  <li><a href="#/page/kebijakan-privasi" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Kebijakan Privasi</a></li>
-                  <li><a href="#/page/ketentuan-layanan" className="text-[#757575] hover:text-[#ee4d2d] text-[14px]">Ketentuan Layanan</a></li>
-                </ul>
-              </div>
-            </div>
-            
-            <div className="border-t border-[#f0f0f0] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-[#757575] text-[12px]">
-                &copy; {new Date().getFullYear()} Katalog Pilihan. All rights reserved.
-              </p>
-              <div className="flex items-center gap-2 text-[#757575] text-[12px]">
-                <span>Made with</span>
-                <Heart className="w-3 h-3 fill-[#ee4d2d] text-[#ee4d2d]" />
-                <span>for smart shoppers</span>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </main>
-
-      {/* Confirmation Modal for Clearing Wishlist */}
-      {showClearWishlistConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-[4px] p-6 max-w-sm w-full outline-none shadow-xl">
-            <h2 className="text-[18px] font-bold text-[#222] mb-2">Hapus Semua Wishlist?</h2>
-            <p className="text-[14px] text-[#757575] mb-6">
-              Apakah Anda yakin ingin menghapus semua produk dari wishlist? Tindakan ini tidak dapat dibatalkan.
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowClearWishlistConfirm(false)}
-                className="px-4 py-2 text-[13px] font-medium text-[#555] bg-gray-100 rounded-[2px] hover:bg-gray-200 transition-colors"
-              >
-                Batal
-              </button>
-              <button
-                onClick={clearWishlist}
-                className="px-4 py-2 text-[13px] font-bold text-white bg-[#ee4d2d] rounded-[2px] hover:bg-[#d74326] transition-colors shadow-sm"
-              >
-                Ya, Hapus Semua
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Floating Action Button - Scroll to Top */}
-      <button
-        onClick={scrollToTop}
-        className={`fixed bottom-[20px] right-[20px] bg-white text-[#ee4d2d] p-[10px] rounded-full shadow-md border border-[#ee4d2d]/20 hover:bg-[#ffe97a] hover:text-[#ee4d2d] transition-all duration-300 z-40 transform ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}
-        aria-label="Kembali ke Atas"
-      >
-        <ArrowUp className="w-[20px] h-[20px]" />
-      </button>
-
-      {/* Floating Collection Button for Mobile */}
-      <a
-        href="https://s.shopee.co.id/8ASu5U2QIE"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-[80px] right-[20px] bg-[#ee4d2d] text-white p-[12px] rounded-full shadow-lg hover:bg-[#d74326] transition-all duration-300 z-40 md:hidden flex items-center justify-center animate-bounce"
-        aria-label="Lihat Semua Produk"
-      >
-        <svg className="w-[24px] h-[24px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </a>
+                  <li>
 
       {/* Toast Notification */}
       {toastMessage && (
@@ -528,3 +448,4 @@ export default function App() {
     </div>
   );
 }
+
